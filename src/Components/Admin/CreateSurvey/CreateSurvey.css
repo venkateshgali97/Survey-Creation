@@ -1,0 +1,94 @@
+.create-survey{
+    width: 85vw;
+    
+}
+
+.create-survey-title{
+    margin: 10px;
+    text-align: center;
+}
+.create-survey-title label{
+    font-size: 25px;
+    font-weight: bold;
+    padding: 10px;
+}
+.create-survey-title input{
+    padding: 10px;
+   font-weight: bold;
+    border: none;
+    outline: none;
+    font-size: 20px;
+}
+.create-survey input:hover{
+    background-color: aliceblue;
+}
+
+.survey-questions-form{
+    display: flex; 
+}
+
+.survey-question,.survey-question-type,.survey-addButton{
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+
+    
+}
+.survey-question label,.survey-question-type label{
+    font-weight: bold;
+    font-size: 20px;
+    padding: 10px;
+}
+.survey-question input{
+    width: 30vw;
+    font-size: 15px;
+    font-weight: bold;
+}
+.survey-question-type select{
+    width: 20vw;
+    padding: 3px;
+}
+.survey-addButton{
+    margin-top: 60px;
+}
+.survey-addButton button{
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: blue;
+    color: white;
+}
+.question-preview-container{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: bisque;
+    margin: 10px;
+    width: 60vw;
+    padding-left: 10px;
+}
+.question-preview-container li{
+font-weight: bold;
+font-size : 18px;
+padding-left: 6px;
+list-style-type:  none;
+}
+.create-survey-buttons{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.users-selections{
+    text-align: center;
+    margin-top: 30px;
+    background-color: aquamarine;
+}
+
+.users-selections h5{
+font-weight: bold;
+color: blueviolet;
+}
+.users-selections label{
+    font-size: 18px;
+    padding: 10px;
+}

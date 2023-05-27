@@ -1,0 +1,90 @@
+.survey-page{
+    width: 85vw;
+    margin-left: 15vw;
+    
+}
+.survey-headers{
+    display: flex;
+    list-style-type: none;
+    justify-content: space-around;
+    background-color: darkblue;
+  }
+  
+.survey-headers li {
+    padding: 10px;
+    font-weight: bold;
+    color: white;
+  }
+  
+.survey-details {
+    display: flex;
+    list-style-type: none;
+    justify-content: space-around;
+    border-bottom: 1px solid #000;
+  }
+
+  .survey-details span{
+    color: blue;
+    text-decoration: underline;
+    font-weight: 800;
+  }
+
+.survey-details li {
+    padding: 10px;
+    font-weight: bold;
+  }
+  
+.survey-questions-container{
+  background-color: grey;
+  padding: 10px;
+  margin-top: 100px;
+}
+.user-survey-question{
+  background-color: white;
+  padding: 40px;
+  flex: none;
+  margin-bottom: 20px;
+}
+.survey-heading{
+  color : darkred;
+  font-weight: bold;
+  font-size: 30px;
+  padding: 30px;
+  
+}
+
+.yes-no-questions-label,.check-box-label,.radio-questions-label{
+  padding: 7px;
+  font-size: 15px;
+  font-weight: bold;
+  margin-right: 20px;
+}
+.text-question-inputField{
+  padding: 40px;
+  width: 100%;
+  background-color:  lightgray;
+  border: none;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.range-question-label{
+  font-weight: bold;
+  padding: 10px;
+  font-size : 15px;
+}
+.ordered-list{
+  font-size: 15px;
+  font-weight: bold;
+  
+}
+
+.user-survey-button{
+  display: flex;
+  justify-content: center;
+  margin: 40px;
+}
+
+.user-survey-button button{
+  margin: 20px;
+}

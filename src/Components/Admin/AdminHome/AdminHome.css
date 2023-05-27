@@ -1,0 +1,40 @@
+.admin-home{
+    display: flex;
+}
+
+.admin-home-sideNav{
+    background: linear-gradient(to bottom, lightblue, lightcoral);
+    min-height: 100vh;
+    width: 15vw;
+    display: flex;
+    align-items: center;
+}
+.admin-home-sideNav ul{
+    list-style-type: none;
+}
+.admin-home-sideNav ul li{
+    font-size: 18px;
+    padding: 20px;
+    color: #333333;
+    font-weight: bold;
+    
+}
+.admin-home-sideNav ul li a{
+    text-decoration: none;
+}
+.admin-home-sideNav ul li a:hover{
+    color: white;
+}
+
+
+.user-home-article{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 85vw;
+}
+.user-home-article p{
+font-weight: bold;
+font-size: 30px;
+}
