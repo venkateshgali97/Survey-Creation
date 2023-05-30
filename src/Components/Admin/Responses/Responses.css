@@ -1,0 +1,46 @@
+.admin-response-page{
+    width: 85vw; 
+    margin-left: 15vw;
+}
+.admin-response-headers{
+    display: flex;
+    list-style-type: none;
+    justify-content: space-around;
+    background-color: darkblue;
+  }
+  
+.admin-response-headers li {
+    padding: 10px;
+    font-weight: bold;
+    color: white;
+  }
+
+  .response-details {
+    display: flex;
+    list-style-type: none;
+    justify-content: space-around;
+    border-bottom: 1px solid #000;
+  }
+
+  .response-details span{
+    color: blue;
+    text-decoration: underline;
+    font-weight: 800;
+  }
+
+.response-details li {
+    padding: 10px;
+    font-weight: bold;
+  }
+  .response-answers-container{
+    background-color: grey;
+  padding: 10px;
+  margin-top: 100px;
+  }
+  
+.response-answers-list-item{
+    background-color: white;
+    margin-bottom: 20px;
+    padding: 30px;
+    font-weight: bold;
+}

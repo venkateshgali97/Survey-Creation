@@ -1,0 +1,22 @@
+.published-survey-container{
+    margin-left: 15vw;
+    width: 85vw;
+}
+.published-survey-nav{
+    display: flex;
+    list-style-type: none;
+    justify-content: space-around;
+    background-color: darkblue;
+}
+.published-survey-nav li{
+    padding: 10px;
+    font-weight: bold;
+    color: white;
+}
+.published-survey-users-list{
+    display: flex;
+    list-style-type: none;
+    justify-content: space-around;
+    border-bottom: 1px solid #000;
+    font-weight: bold;
+}

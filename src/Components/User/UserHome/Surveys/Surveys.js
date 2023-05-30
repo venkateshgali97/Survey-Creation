@@ -1,47 +1,106 @@
 import "./Surveys.css"
 import { useEffect, useState } from "react"
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const Surveys = () => {
     const [totalSurveys, setTotalSurveys] = useState([])
-    const data = localStorage.getItem("userDetails")
     const [surveyQuestions, setSurveyQuestions] = useState([])
     const [surveyName, setSurveyName] = useState("")
     const [wantToRespond, setWantToRespond] = useState(false)
-    const [responseData,setResponseData] = useState({})
-    
+    const [responseData,setResponseData] = useState([])
+    const [adminEmail,setAdminEmail] = useState([])
+    const data = localStorage.getItem("userDetails")
     const { email } = JSON.parse(data)
 
-    const surveyHandler = (id) => {
+    const surveyHandler = (id,email) => {
         const filteredData = totalSurveys.filter((ele) => ele._id === id)
-        setSurveyName(filteredData[0].data[0].title, "surveyName")
+        // setSurveyName(filteredData[0].data[0].title, "surveyName")
+        setSurveyName(filteredData[0].data[0].title)
         setSurveyQuestions(filteredData[0].data[0].questions)
         setWantToRespond(true)
+        setAdminEmail(email)
        
     }
 const submitResponseHandler = () =>{
-    console.log(responseData)
-    alert(responseData)
+    const data = {
+    userEmail : email,
+    status : true,
+    responses : responseData,
+    surveyName : surveyName,
+    adminEmail : adminEmail
+    }
+   const options = {
+    method : "post",
+    headers :{
+        "Content-Type" : "application/json",
+        "accept" : "application/json"
+
+    },
+    body : JSON.stringify(data)
+   }
+
+   fetch("http://localhost:8000/responses",options).then((res) => res.json())
+   .then((resData) => {
+    setWantToRespond(false)
+    toast.success(resData)
+   })
+   .catch((err) => console.log(err))
 }
 const responseCancelHandler = () =>{
     setWantToRespond(false)
 }
 const responseDataHandler = (e) => {
     const { name, value, type } = e.target;
-  
+    // if (type === "checkbox") {
+    //     setResponseData((prevState) => {
+    //       if (prevState[name]) {
+    //         const updatedArray = prevState[name].filter(item => item !== value);
+    //         return {
+    //           ...prevState,
+    //           [name]: updatedArray.length ? updatedArray : null
+    //         };
+    //       } else {
+    //         return {
+    //           ...prevState,
+    //           [name]: [value]
+    //         };
+    //       }
+    //     });
+    //   }else {
+    //       setResponseData((prevState) => ({
+    //         ...prevState,
+    //         [name]: value
+    //       }));
+    //     }
     if (type === "checkbox") {
-      setResponseData((prevState) => ({
-        ...prevState,
-        [name]: prevState[name] ? [...prevState[name], value] : [value]
-      }));
-    } else {
-      setResponseData((prevState) => ({
-        ...prevState,
-        [name]: value
-      }));
-    }
-    console.log(responseData)
+        setResponseData((prevState) => {
+          const updatedArray = prevState[name] ? [...prevState[name]] : [];
+          if (updatedArray.includes(value)) {
+            // Remove the value if it already exists
+            const filteredArray = updatedArray.filter(item => item !== value);
+            return {
+              ...prevState,
+              [name]: filteredArray.length ? filteredArray : null
+            };
+          } else {
+            // Add the value to the array
+            updatedArray.push(value);
+            return {
+              ...prevState,
+              [name]: updatedArray
+            };
+          }
+        });
+      } else {
+        setResponseData((prevState) => ({
+          ...prevState,
+          [name]: value
+        }));
+      }
   };
+
+
   
     const renderBasedOnInput = (ele) => {
         const { type, _id, options } = ele
@@ -110,7 +169,7 @@ useEffect(() =>{
         method : "post",
         headers : {
             "Content-Type" : "application/json",
-            "accept" : "applications/json"
+            "accept" : "application/json"
         },
         body : JSON.stringify(data)
     }
@@ -128,7 +187,7 @@ useEffect(() =>{
                         <li>Published By</li>
                         <li>Survey Name</li>
                         <li>Respond</li>
-                        <li>Status</li>
+                       
                     </ul>
                 </div>
 
@@ -139,8 +198,8 @@ useEffect(() =>{
                                 <ul className="survey-details" key={ele._id}>
                                     <li>{ele.email}</li>
                                     <li>{ele.data[0].title}</li>
-                                    <li id={ele._id} onClick={() => surveyHandler(ele._id)}><span >Click Here</span></li>
-                                    <li>Not Responded</li>
+                                    <li id={ele._id} onClick={() => surveyHandler(ele._id,ele.email)}><span >Click Here</span></li>
+                                    
                                 </ul>
                             )
                         })}
@@ -167,7 +226,7 @@ useEffect(() =>{
                         </div>
                     </div>
                 )}
-
+            <ToastContainer />
             </div>
 
         </>

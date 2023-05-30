@@ -51,7 +51,7 @@ const CreateSurveys = () => {
     else if (type === "") {
       toast.warning("Please Choose Question Type")
     } else {
-      if (type !== "text" && type !== "yes/no" && type !== "radio") {
+      if (type !== "text" && type !== "yes/no" && type !== "range") {
         setOptionsRequired(true)
         if (options.length < 2) {
           toast.warning("Enter your options separated by comma")
@@ -100,9 +100,10 @@ const CreateSurveys = () => {
     const {title} = surveyQuestionsData[0]
     const details = {
       data : [{title:title,questions : surveyQuestionsData}],
-      users : usersData,
+      // users : usersData,
       email : email 
     }   
+    console.log(details)
     const options = {
       method :"post",
       headers :{
