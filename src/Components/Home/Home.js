@@ -1,3 +1,4 @@
+
 import "./Home.css"
 import { useState } from "react"
 import { ToastContainer, toast } from 'react-toastify';
@@ -24,6 +25,9 @@ const Home = () => {
         "password" : "",
         "userType": ""
     })
+
+    const [signInpage,setSignInPage] = useState(false)
+    const [signUpPage,setSignUpPage] = useState(true)
 // sign In input Handle Funtion 
 const signInInputHandler = (event) =>{
  const {value,name} = event.target
@@ -136,12 +140,18 @@ const signUpInputHandler = (event) =>{
     }
 
     return (
-        <div className="container-fluid">
-            <div className="row">
-                <div className="col-md-12 col-lg-6 ">
-                    
-                    <form className="Login">
-                    <h5>SIGN IN</h5>
+        <>
+        <div className="home-container">
+         <div className="home-sub-container shadow-lg rounded">
+            <div className="p-3">
+               <div className="home-buttons">
+               <button className={`${signInpage ? 'active' : ''}`} onClick={() => {setSignInPage(true) ;setSignUpPage(false)}}>Login</button>
+               <button className={`${signUpPage ? 'active' : ''}`} onClick={() => {setSignInPage(false) ;setSignUpPage(true)}}>Signup</button>
+               </div>
+
+               {signInpage &&
+               <form className="Login">
+                    <h5>Login Form</h5>
                         <div>
                             <label htmlFor="login-email">Email : </label>
                             <input type="email" placeholder="Enter your email" id="login-email" name = "email" value = {signInDetails.email} onChange={signInInputHandler} required></input>
@@ -158,13 +168,16 @@ const signUpInputHandler = (event) =>{
                                 <option value="admin">Admin</option>
                             </select>
                         </div>
+                        <div  className="buttons-singIn-signUp">
                         <button className="btn btn-primary" onClick={signInHandler}>Sign In</button>
-                    </form>
-                </div>
+                        </div>
+                    </form> 
+}
+                
 
-                <div className="col-md-12 col-lg-6">
+            {signUpPage &&
                     <form className="Registration" onSubmit={signUpHandler}>
-                    <h5 >SIGN UP</h5>
+                    <h5 >Registration Form</h5>
                     <div>
                         <label htmlFor="registration-name">Name : </label>
                         <input type="text" placeholder="Enter your Name" id="registration-name" name="name" value={signUpDetails.name} onChange={signUpInputHandler} required></input>
@@ -185,13 +198,21 @@ const signUpInputHandler = (event) =>{
                             <option value="admin">Admin</option>
                         </select>
                     </div>
-                    <button  className="btn btn-success" onClick={signUpHandler}>Sign up</button>
+                    <div className="buttons-singIn-signUp">
+                    <button  className="btn btn-primary" onClick={signUpHandler}>Sign up</button>
+                    </div>
                 </form>
-             </div>
-            </div>
+}
             <ToastContainer />
             {(loginStatus.status) && <Navigate to= {`/${loginStatus.userType}`}/>}
+            
+         </div>
+         </div>
         </div>
+        
+                    
+        
+        </>
     )
 }
 

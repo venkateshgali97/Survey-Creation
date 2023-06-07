@@ -3,6 +3,8 @@ import "./CreateSurvey.css";
 import { useEffect, useState } from "react"
 import { v4 as uuidv4 } from "uuid";
 import { toast, ToastContainer } from "react-toastify";
+import Modal from 'react-modal';
+
 
 
 const CreateSurveys = () => {
@@ -11,6 +13,8 @@ const CreateSurveys = () => {
   const [usersData, setUsersData] = useState([])  //selected usersData to send the survey
   const [registeredUsersData, setRegisteredUsersData] = useState([]) //Number of users in the database
   const [surveyQuestionsData, setSurveyQuestionsData] = useState([])
+  const [showModal, setShowModal] = useState(false);
+
   const [surveyQuestions, setSurveyQuestions] = useState({
     "id": uuidv4(),
     "title": "",
@@ -27,7 +31,7 @@ const CreateSurveys = () => {
     fetch("http://localhost:8000/usersData", options).then((res) => res.json()).then((resData) => setRegisteredUsersData(resData)).catch((err) => console.log(err))
   }, [])
 
-  
+
 
   //For updating users question and type
   const surveyQuestionsHandler = (e) => {
@@ -97,35 +101,35 @@ const CreateSurveys = () => {
 
   // For Drafting the survey
   const draftSurveyHandler = () => {
-    const {title} = surveyQuestionsData[0]
+    const { title } = surveyQuestionsData[0]
     const details = {
-      data : [{title:title,questions : surveyQuestionsData}],
+      data: [{ title: title, questions: surveyQuestionsData }],
       // users : usersData,
-      email : email 
-    }   
-    console.log(details)
+      email: email,
+      status: "Drafted",
+      title: title
+    }
     const options = {
-      method :"post",
-      headers :{
-        "Content-Type" : 'application/json',
-        "accept" : "application/json"
+      method: "post",
+      headers: {
+        "Content-Type": 'application/json',
+        "accept": "application/json"
       },
-      body : JSON.stringify(details)
+      body: JSON.stringify(details)
     }
 
-    fetch("http://localhost:8000/draftSurvey",options).then((res) => res.json()).then((resData) => 
-    {
-      
+    fetch("http://localhost:8000/publishedSurvey", options).then((res) => res.json()).then((resData) => {
+
       setSurveyQuestionsData([])
       setPublishStatus(false)
-      toast.success(resData)
+      toast.success("Survey Drafted successfully")
       setUsersData([])
       setSurveyQuestions((prevState) => ({
         ...prevState,
-        title : ""
+        title: ""
       }))
     }
-      ).catch((err) => (toast.error("Survey didn't Draft")
+    ).catch((err) => (toast.error("Survey didn't Drafted")
     ))
   }
 
@@ -145,36 +149,38 @@ const CreateSurveys = () => {
       toast.warning("Please select atleast 1 User")
     }
     else {
-      const {title} = surveyQuestionsData[0]
+      const { title } = surveyQuestionsData[0]
       const details = {
-        data : [{title:title,questions : surveyQuestionsData}],
-        users : usersData,
-        email : email 
-      }
-     
-      
-      const options = {
-        method :"post",
-        headers :{
-          "Content-Type" : 'application/json',
-          "accept" : "application/json"
-        },
-        body : JSON.stringify(details)
+        data: [{ title: title, questions: surveyQuestionsData }],
+        users: usersData,
+        email: email,
+        status: "Published",
+        title: title
       }
 
-      fetch("http://localhost:8000/publishedSurvey",options).then((res) => res.json()).then((resData) => 
-      {
-        
+
+      const options = {
+        method: "post",
+        headers: {
+          "Content-Type": 'application/json',
+          "accept": "application/json"
+        },
+        body: JSON.stringify(details)
+      }
+
+      fetch("http://localhost:8000/publishedSurvey", options).then((res) => res.json()).then((resData) => {
+
         setSurveyQuestionsData([])
         setPublishStatus(false)
         toast.success(resData)
         setUsersData([])
+        setShowModal(false)
         setSurveyQuestions((prevState) => ({
           ...prevState,
-          title : ""
+          title: ""
         }))
       }
-        ).catch((err) => (toast.error("Survey didn't published")
+      ).catch((err) => (toast.error("Survey didn't published")
       ))
     }
   }
@@ -186,6 +192,7 @@ const CreateSurveys = () => {
     }))
     setPublishStatus(false)
     toast.warning("Cancelled")
+    setShowModal(false)
   }
 
 
@@ -194,12 +201,12 @@ const CreateSurveys = () => {
   const handleCheckBoxChange = (e) => {
     const { checked, name } = e.target
     if (checked) {
-      setUsersData([...usersData,name])
+      setUsersData([...usersData, name])
     }
-    else{
+    else {
       setUsersData((prevState) => prevState.filter((item) => item !== name))
     }
-console.log(usersData)
+    console.log(usersData)
   }
   return (
 
@@ -253,28 +260,32 @@ console.log(usersData)
       {surveyQuestionsData.length >= 1 && (
         <div className="create-survey-buttons">
           <button className="btn btn-primary" onClick={draftSurveyHandler}>Draft</button>
-          <button className="btn btn-success" onClick={() => setPublishStatus(true)}>Publish</button>
+          <button className="btn btn-success" onClick={() => {
+            setPublishStatus(true)
+            setShowModal(true)
+          }}>Publish</button>
         </div>
       )}
 
-      {publishStatus && (
-        <div className="users-selections">
-          <h5>Select users to whom you want to send the survey:</h5>
-          <div>
-            {registeredUsersData.map((ele) => (
-              <div key={ele._id}>
-                <input type="checkbox" id={ele._id} name={ele.email} value={ele.email} onChange={handleCheckBoxChange} />
-                <label htmlFor={ele._id}>{ele.email}</label>
-              </div>
-            ))}
-          </div>
 
-          <div>
-            <button className="btn btn-success m-3" onClick={publishSurveyFinalHandler}>Send</button>
-            <button className="btn btn-danger m-3" onClick={publishSurveyCancelHandler}>Cancel</button>
-          </div>
+      <Modal isOpen={showModal} onRequestClose={() => setShowModal(false)}>
+        <h5>Select users to whom you want to send the survey:</h5>
+        <div className="create-survey-model">
+          {registeredUsersData.map((ele) => (
+            <div key={ele._id}>
+              <input type="checkbox" id={ele._id} name={ele.email} value={ele.email} onChange={handleCheckBoxChange} />
+              <label htmlFor={ele._id}>{ele.email}</label>
+            </div>
+          ))}
         </div>
-      )}
+
+        <div className="create-survery-model-buttons">
+          <button className="btn btn-success m-3" onClick={publishSurveyFinalHandler}>Publish</button>
+          <button className="btn btn-danger m-3" onClick={publishSurveyCancelHandler}>Cancel</button>
+        </div>
+      </Modal>
+
+
       <ToastContainer />
     </div>
 

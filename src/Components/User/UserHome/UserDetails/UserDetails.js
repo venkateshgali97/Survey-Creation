@@ -6,6 +6,7 @@ const UserDetails = () =>{
     
     return(
         <div className="user-details">
+            <i className="fa-regular fa-user fa-xl p-4"></i>
             <p>{email}</p>
             <p>({userType})</p>
         </div>

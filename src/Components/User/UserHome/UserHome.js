@@ -7,7 +7,7 @@ const UserHome = () => {
     localStorage.removeItem("userDetails")
   }
     return (
-      <div className="user-home">
+      <div className="user-home"> 
         <div className="user-home-sideNav">
             <ul>
                 <li><Link to = "">Details</Link></li>

@@ -3,12 +3,8 @@
 }
 
 .admin-home-sideNav{
-    /* background: linear-gradient(to bottom, lightblue, lightcoral);
-    min-height: 100vh;
-    width: 15vw;
-    display: flex;
-    align-items: center; */
-    background: linear-gradient(to bottom, lightblue, lightcoral);
+    
+    background: linear-gradient(to left, #a445b2, #fa4299);
     min-height: 100vh;
     width: 15vw;
     display: flex;
@@ -22,15 +18,16 @@
 .admin-home-sideNav ul li{
     font-size: 18px;
     padding: 20px;
-    color: #333333;
+    
     font-weight: bold;
     
 }
 .admin-home-sideNav ul li a{
     text-decoration: none;
+    color: white;
 }
 .admin-home-sideNav ul li a:hover{
-    color: white;
+    color: wheat;
 }
 
 
